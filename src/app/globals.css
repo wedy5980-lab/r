@@ -1,0 +1,133 @@
+@import "tailwindcss";
+@import "@fontsource-variable/noto-sans-arabic/index.css";
+@import "@fontsource-variable/noto-kufi-arabic/index.css";
+
+/* ── Design tokens ─────────────────────────────────────────────── */
+@theme {
+  --font-sans: "Noto Sans Arabic Variable", system-ui, sans-serif;
+  --font-display: "Noto Kufi Arabic Variable", "Noto Sans Arabic Variable", system-ui, sans-serif;
+
+  /* brand: deep emerald + gold, configurable via CSS vars from office settings */
+  --color-brand-50:  #eef7f3;
+  --color-brand-100: #d3ebe1;
+  --color-brand-200: #a8d7c4;
+  --color-brand-300: #74bba2;
+  --color-brand-400: #429a7e;
+  --color-brand-500: #217f62;
+  --color-brand-600: #0f6b52;
+  --color-brand-700: #0b5541;
+  --color-brand-800: #0a4234;
+  --color-brand-900: #08352a;
+
+  --color-gold-300: #e6cf7a;
+  --color-gold-400: #d8bb52;
+  --color-gold-500: #c9a227;
+  --color-gold-600: #a6841d;
+
+  --color-ink-900: #0d1512;
+  --color-ink-700: #2b3733;
+  --color-ink-500: #5b6a65;
+  --color-ink-300: #9aa8a3;
+  --color-sand-50: #faf9f6;
+  --color-sand-100: #f3f1ea;
+  --color-sand-200: #e7e3d8;
+
+  --radius-xl2: 1.25rem;
+  --shadow-soft: 0 1px 2px rgb(13 21 18 / 0.04), 0 8px 24px -8px rgb(13 21 18 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(13 21 18 / 0.05), 0 18px 40px -12px rgb(13 21 18 / 0.22);
+}
+
+:root {
+  --brand: #0f6b52;
+  --brand-deep: #0b5541;
+  --accent: #c9a227;
+  color-scheme: light;
+}
+
+* { border-color: var(--color-sand-200); }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-sand-50);
+  color: var(--color-ink-900);
+  font-feature-settings: "kern";
+  text-rendering: optimizeLegibility;
+}
+
+/* Arabic numerals stay legible in tabular contexts */
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* ── Motion language ───────────────────────────────────────────── */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes zoomSoft {
+  from { transform: scale(1.06); }
+  to   { transform: scale(1); }
+}
+@keyframes shimmer {
+  100% { transform: translateX(-100%); }
+}
+@keyframes kenburns {
+  0%   { transform: scale(1.04) translate3d(0,0,0); }
+  100% { transform: scale(1.14) translate3d(1%, -1.5%, 0); }
+}
+
+.reveal { opacity: 0; }
+.reveal.is-in { animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.fade-in { animation: fade 0.5s ease forwards; }
+.zoom-soft { animation: zoomSoft 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.hero-media { animation: kenburns 22s ease-in-out infinite alternate; }
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-sand-200);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(100%);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.6), transparent);
+  animation: shimmer 1.6s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal, .reveal.is-in { opacity: 1; animation: none !important; }
+  .hero-media, .zoom-soft, .skeleton::after { animation: none !important; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ── Utilities ─────────────────────────────────────────────────── */
+.container-x { width: 100%; margin-inline: auto; max-width: 84rem; padding-inline: 1rem; }
+@media (min-width: 768px) { .container-x { padding-inline: 2rem; } }
+
+.glass {
+  background: rgb(255 255 255 / 0.82);
+  backdrop-filter: blur(16px) saturate(140%);
+}
+
+.hairline { box-shadow: inset 0 -1px 0 rgb(13 21 18 / 0.06); }
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection { background: var(--color-brand-200); }
